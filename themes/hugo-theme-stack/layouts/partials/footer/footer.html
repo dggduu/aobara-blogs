@@ -1,0 +1,99 @@
+<footer class="site-footer">
+    <div class="footer-content">
+        <div class="left-content">
+            <section class="info">
+                © 2024 Aobara<br>
+                息事宁人<br>
+
+            <!-- Add blog running time -->
+<section class="running-time">
+本博客已稳定运行
+<span id="runningdays" class="running-days"></span>
+</section>
+
+<!-- Add total page and word count time -->
+<section class="totalcount">
+    {{$scratch := newScratch}}
+    {{ range (where .Site.Pages "Kind" "page" )}}
+        {{$scratch.Add "total" .WordCount}}
+    {{ end }}
+    发表了{{ len (where .Site.RegularPages "Section" "post") }}篇文章 · 
+    总计{{ div ($scratch.Get "total") 1000.0 | lang.FormatNumber 2 }}k字
+</section>
+
+            </section>
+                使用 <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> 构建<br>
+                主题 <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.27.0">Stack</a></b> 由 <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a> 设计
+            </section>
+        </div>
+        <div class="right-content">
+            <div class="counter-container">
+                <img src="https://moecounter.aobara-blogs.us.kg/get/@aobara?theme=rule34" alt=":name" />
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .footer-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .left-content, .right-content {
+        flex: 1;
+    }
+
+    .left-content {
+        text-align: left;
+    }
+
+    .right-content {
+        text-align: right;
+        align-self: flex-end; 
+    }
+
+    .counter-container {
+        display: inline-block;
+        vertical-align: top;
+    }
+
+    .counter-container img {
+        height: 72px; 
+    }
+
+    .footer-content > .left-content > .info {
+        white-space: nowrap; 
+        overflow: hidden; 
+        text-overflow: ellipsis; 
+    }
+
+    @media (max-width: 768px) {
+        .footer-content {
+            flex-direction: column; 
+            align-items: center; 
+        }
+
+        .left-content, .right-content {
+            flex: none;
+            width: 100%;
+            text-align: center;
+        }
+
+        .info {
+            white-space: normal; 
+            text-align: center; 
+        }
+
+        .counter-container img {
+            height: auto; 
+            max-width: 75%; 
+        }
+
+        .right-content {
+            margin-top: 24px; 
+        }
+    }
+</style>
