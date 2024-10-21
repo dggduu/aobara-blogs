@@ -173,7 +173,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=ARCH
 sudo systemctl start sshd  
 sudo systemctl enable sshd  
 sudo nano /etc/resolv.conf  
-sudo systemctl restart NetworkManager.service  
+sudo systemctl enable NetworkManager.service  
 
 ctrl+alt+F5  
 [^1]:参阅：
