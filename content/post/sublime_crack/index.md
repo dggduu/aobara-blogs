@@ -9,9 +9,9 @@ categories = [
     "笔记",
 ]
 series = ["Themes Guide"]
-aliases = ["migrate-from-jekyl"]
 image = "title.jpg"
 +++
+
 ## 什么是Sublime Text
 >Sublime Text 是一款功能强大的跨平台文本编辑器，适用于代码、标记和散文。它支持多种编程语言和标记语言，用户可以使用主题进行定制，并通过插件扩展其功能。
 >
