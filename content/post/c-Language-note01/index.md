@@ -1,6 +1,6 @@
 +++
 author = "aobara"
-title = "C语言拾遗01"
+title = "C语言笔记01"
 description = ""
 date = "2024-10-29"
 categories = [
@@ -183,5 +183,6 @@ _Alignas(4) char c;
 
 ## 断言库（assert.h）
 assert(BOOL);
+like this:  
 >Assertion failed: a, file D:\promgmme\1.c, line 5
 

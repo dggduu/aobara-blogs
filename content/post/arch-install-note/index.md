@@ -38,6 +38,12 @@ image = "1.png"
  ping  baidu.com
  ```
  ps.等等如果我是在实体机装这个，那么怎么进行 captive potral 来连上我们学校校园网呢（逃
+
+ #### 解决wlan0 powered:off问题
+ ```sh
+rfkill unblock wlan
+ ```
+
  ### ssh（可选）
  我用的是VBox,先在设置里进行端口映射
  ```shell
@@ -79,6 +85,11 @@ timedatectl status
 | 600MB          | Linux fileSystem |
 | 所有剩余空间   | Linux fileSystem |  
 注：我这是虚拟机且电脑没什么空间了，所以没有配置SWAP分区，实体机的话建议配置一下  
+##### 在固态硬盘使用cfdisk
+![Alt text](/2.png "Optional title")
+```sh
+cfdisk /dev/nvme0n1
+```
 #### 格式化并挂载
 ```shell
 mkfs.fat -F32 /dev/sda1  
@@ -121,7 +132,7 @@ nano /etc/locale.gen
 locale-gen
 
 pacman -S sudo     //如果下面无法正常执行
-echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
+echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers
 ```
 #### 添加用户名(别忘了)
 ```shell
@@ -168,6 +179,76 @@ genfstab -U /mnt > /mnt/etc/fstab
 arch-chroot /mnt
 ...(看上面的)
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=ARCH
+```
+```shell-script
+The algorithms can be characterized as follows regarding the speed/ratio trade-offs:
+关于速度/比率权衡，算法可以描述如下：
+
+ZLIB 兹利布
+slower, higher compression ratio
+速度较慢，压缩率较高
+
+levels: 1 to 9, mapped directly, default level is 3
+级别：1 到 9，直接映射，默认级别为 3
+
+good backward compatibility
+良好的向后兼容性
+
+LZO LZO 公司
+faster compression and decompression than ZLIB, worse compression ratio, designed to be fast
+比 ZLIB 更快的压缩和解压缩，压缩率更差，设计为快速
+
+no levels 无级别
+
+good backward compatibility
+良好的向后兼容性
+
+ZSTD
+compression comparable to ZLIB with higher compression/decompression speeds and different ratio
+压缩率可与 ZLIB 相媲美，具有更高的压缩/解压缩速度和不同的比率
+
+levels: 1 to 15, mapped directly (higher levels are not available)
+级别：1 到 15，直接映射（更高级别不可用）
+
+since 4.14, levels since 5.1
+自 4.14 起，级别自 5.1 起
+```
+### 使用NetworkManager
+```sh
+systemctl enable NetworkManager
+systemctl start NetworkManager
+
+nmcli connection add type wifi ifname wlan0 con-name XiaomiSu7 ssid "XiaomiSu7" 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk "your_wifi_password"
+```
+
+### 安装yay
+```sh
+sudo pacman -Syu
+sudo pacman -S --needed base-devel git
+
+git clone https://aur.archlinux.org/yay.git
+cd yaycd yay
+```
+
+### 修改DNS
+```sh
+sudo systemctl enable systemd-resolved
+sudo systemctl start systemd-resolved
+
+sudo nano /etc/systemd/resolved.conf
+
+sudo systemctl restart systemd-resolved
+sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+```
+
+### 配置临时代理
+```sh
+export http_proxy=http://192.168.141.106:7897
+export https_proxy=http://192.168.141.106:7897
+```
+### 安装hyprland
+```sh
+pacman -Sy hyprland
 ```
 ## 可能有用的东西：
 sudo systemctl start sshd  
