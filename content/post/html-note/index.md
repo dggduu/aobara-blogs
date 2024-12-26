@@ -276,6 +276,26 @@ outset: 定义一个3D突出边框。 效果取决于边框的颜色值
 上右下左  
 左右互补，上下互补，只有一个值共用
 
+### CSS Display与Visibility
+隐藏元素:  
+display:none 元素不再占用空间。  
+visibility: hidden 使元素在网页上不可见，但仍占用空间。  
+```css
+内联元素(inline)特性：  
+和相邻的内联元素在同一行;
+宽度(width)、高度(height)、内边距的top/bottom(padding-top/padding-bottom)和外边距的top/bottom(margin-top/margin-bottom)都不可改变，就是里面文字或图片的大小;
+
+块级元素主要有：
+ address , blockquote , center , dir , div , dl , fieldset , form , h1 , h2 , h3 , h4 , h5 , h6 , hr , isindex , menu , noframes , noscript , ol , p , pre , table , ul , li
+
+内联元素主要有：  
+a , abbr , acronym , b , bdo , big , br , cite , code , dfn , em , font , i , img , input , kbd , label , q , s , samp , select , small , span , strike , strong , sub , sup ,textarea , tt , u , var
+可变元素(根据上下文关系确定该元素是块元素还是内联元素)：
+
+applet ,button ,del ,iframe , ins ,map ,object , script
+
+```
+
 ### 链接样式
 ```css
 a:link {color:#000000;}      /* 未访问链接*/
@@ -327,3 +347,17 @@ top: 0px;
 
 ![定位](3.png "Optional title")
 
+###Grid布局
+```css
+display:grid;//启用grid布局
+
+
+grid-template-columns: 1fr 1fr 1fr 1fr;//设置列数
+grid-template-rows: ;//设置行数
+
+1fr==自由空间。多个fr则是等分页面。
+2fr，1fr//r若有两个fr，则2fr为fr的两倍，或是2/3;
+
+column-gap: 20px;//设置列间距
+row-gap: 10px;//设置行间距
+```
