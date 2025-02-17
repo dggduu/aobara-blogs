@@ -7,7 +7,6 @@ categories = [
     "编程",
     "笔记",
 ]
-image = "1.jpg"
 +++
 ## 前置操作
 visual studio code 安装`HTML CSS Support`，`LIVE Server`和`auto rename tag`

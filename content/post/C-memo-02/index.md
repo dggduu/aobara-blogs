@@ -7,7 +7,6 @@ categories = [
     "编程",
     "笔记",
 ]
-image = "1.jpg"
 +++
 ## 记忆化存储
 ### c-style

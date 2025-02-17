@@ -7,7 +7,6 @@ categories = [
     "编程",
     "笔记",
 ]
-image = "title.png"
 +++
 ## 类型
 ### 浮点值的上溢：

@@ -7,7 +7,6 @@ categories = [
     "AI",
     "笔记",
 ]
-image = "title.png"
 +++
 ## 安装
 https://github.com/comfyanonymous/ComfyUI/releases  
