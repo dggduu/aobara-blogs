@@ -1,3 +1,5 @@
+{{ partial "mathjax.html" . }}
+
 {{ if gt .Paginator.TotalPages 1 }}
     <nav class='pagination'>
         {{ $.Scratch.Set "hasPrevDots" false }}

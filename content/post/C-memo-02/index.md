@@ -109,3 +109,36 @@ int main(){
     return 0;
 }
 ```
+### 计算器
+```c
+int com(string s,int size){
+    char oper='0';
+    int a=0,b=0;
+    for(int i=0;i<size;i++){
+        if(s[i]==' ') continue;
+        if(s[i]<'0'||s[i]>'9'){
+            oper = s[i];
+            continue;
+        }
+        if(oper=='0'){
+            a*=10;
+            a+=(s[i]-'0');
+        }else{
+            b*=10;
+            b+=(s[i]-'0');
+        }
+    }
+    switch(oper){
+    case('+'):
+        return a+b;
+    case('-'):
+        return a-b;
+    case('*'):
+        return a*b;
+    case('/'):
+        return a*1.0/b;
+    case('%'):
+        return a%b;
+    }
+}
+```
