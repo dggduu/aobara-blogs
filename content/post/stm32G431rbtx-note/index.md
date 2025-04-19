@@ -193,6 +193,14 @@ $$
 HAL_TIM_PWM_Start(&htim2,TIM_CHANNER_1);//使能
 TIM2->CCR2=50;//2=CH2
 CCR//输出比较寄存器
+
+//如何设置ARR值
+HAL_TIM_GetAutoreload(&htim2);
+HAL_TIM_SetAutoreload(&htim2,arr);
+
+//opttion2
+__HAL_TIM_SET_COMPARE(&htim17, TIM_CHANNEL_1, 300)
+用来改变CRR的值的函数
 ```
 $$
 f=\frac{f_{sys}}{(ARR+1)(PSC+1)}
@@ -239,7 +247,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart){//重写回调
 ```c
 HAL_UART_Receive_IT(&huart2,&data,sizeof(data));
 ```
-### 自定义接受时长
+### 减速函数
 通过加TIM并判断CNT>15实现  
 $$
 f=\frac{f_{sys}}{(ARR+1)(PSC+1)}
@@ -285,5 +293,47 @@ RTC_TimeTypeDef sTime ={0};
 RTC_DateTypeDef sDate={0};
 void HAL_RTC_AlarmAEventCallback(RTC_HandleTypeDef *hrtc){
   ...
+}
+  HAL_RTC_GetDate(&hrtc,&sDate,RTC_FORMAT_BIN);
+  HAL_RTC_GetTime(&hrtc,&sTime,RTC_FORMAT_BIN);//rtc句柄，RTC_DateTypeDef,用于
+```
+## ex
+### 显示图片
+```c
+void LCD_showPic(const uint8_t* pic_arr, uint8_t pic_x, uint8_t pic_y) {
+  LCD_Init();
+  LCD_Clear(Black);
+  
+  LCD_SetCursor((240-pic_y)/2,(320-pic_x)/2); 
+  LCD_WriteRAM_Prepare();
+  
+  for(int i=0;i<(pic_x*pic_y*2);i+=2){
+    if(i%(pic_x*2)==0){
+      for(uint8_t flesh=0;flesh<(320-pic_x);flesh++)
+        LCD_WriteRAM((uint16_t)0x00000);
+    }
+    LCD_WriteRAM(pic_arr[i+1]<<8|pic_arr[i]);
+  }
+}
+
+void LCD_showVPic(const uint8_t* pic_arr, uint8_t pic_x, uint8_t pic_y) {
+  LCD_Init();
+  LCD_Clear(Black);
+  uint16_t start_x=(240-pic_x)/2,start_y=0;
+  LCD_SetCursor(start_x,start_y); 
+  LCD_WriteRAM_Prepare();
+  
+  for(uint16_t y=0;y<pic_x;y++){
+    for(uint16_t x=0;x<(320-pic_y)/2;x++){
+      LCD_WriteRAM(0x000000);
+    }//填充左半边
+    for(uint16_t x=0;x<pic_y;x++){
+      uint16_t offset =(pic_x*x+y) * 2;
+      LCD_WriteRAM(pic_arr[offset+1]<<8|pic_arr[offset]);
+    }
+    for(uint16_t x=0;x<(320-pic_y)/2;x++){
+      LCD_WriteRAM(0x000000);
+    }//填充右半边
+  }
 }
 ```
