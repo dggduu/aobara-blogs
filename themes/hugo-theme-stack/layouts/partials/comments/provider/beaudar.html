@@ -34,7 +34,6 @@
 
   addEventListener("message", (event) => {
     if (event.origin !== "https://beaudar.lipk.org") return;
-    /// Called when Beaudar is ready
     beaudarLoaded = true;
     setBeaudarTheme(document.documentElement.dataset.scheme);
   });

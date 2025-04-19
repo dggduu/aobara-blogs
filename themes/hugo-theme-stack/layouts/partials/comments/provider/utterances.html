@@ -34,7 +34,6 @@
     addEventListener('message', event => {
         if (event.origin !== 'https://utteranc.es') return;
 
-        /// Called when Utterances is ready
         utterancesLoaded = true;
         setUtterancesTheme(document.documentElement.dataset.scheme)
     });
