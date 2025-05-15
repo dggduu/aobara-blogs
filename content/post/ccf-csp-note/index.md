@@ -316,11 +316,156 @@ Node* buildHuffmanTree(const unordered_map<char, int>& freqMap) {
 # 算法
 ## 排序
 ### sort()
-### 桶排序
+#### cmp
+false 交换；true不交换；  
+```cpp
+bool compare(const stu &a, const stu &b) {
+    // 情况1: a 的年龄 >= 60，而 b 的年龄 < 60
+    // 把 a 放在 b 前面（优先排年长者）
+    if (a.year >= 60 && b.year < 60)
+        return true;
+    // 情况2: a 的年龄 < 60，而 b 的年龄 >= 60
+    // 把 b 放在 a 前面，所以 a 不应排在前面，返回 false
+    if (a.year < 60 && b.year >= 60)
+        return false;
+    // 情况3: a 和 b 的年龄都 >= 60
+    // 先按年龄从大到小排序，如果年龄相同，则按索引从小到大排序
+    if (a.year >= 60 && b.year >= 60) {
+        if (a.year == b.year)
+            return a.index < b.index; // 年龄相同时，索引小的排前面
+        return a.year > b.year;       // 年龄大的排前面
+    }
+    // 情况4: a 和 b 的年龄都 < 60
+    // 按索引从小到大排序
+    return a.index < b.index;
+}
+```
+#### 字符串按字母进行排序
+```cpp
+sort(str,str+cnt);
+```
+### 归并排序
+```cpp
+void merge(int start, int mid, int end) {
+    int i = start, j = mid + 1, k = start;
+    while (i <= mid && j <= end) {
+        if (arr[i] <= arr[j]) {
+            tmp[k++] = arr[i++];
+        } else {
+            tmp[k++] = arr[j++];
+            cnt += (mid - i + 1);
+        }
+    }
+    while (i <= mid) tmp[k++] = arr[i++];
+    while (j <= end) tmp[k++] = arr[j++]; 
+    for (i = start; i <= end; ++i) arr[i] = tmp[i]; 
+}
+
+void merge_sort(int start, int end) {
+    if (start >= end) return;
+    int mid = (start + end) / 2;
+    merge_sort(start, mid);
+    merge_sort(mid + 1, end);
+    merge(start, mid, end);
+}
+```
 ## 模拟
 ### 大数运算
+#### 加法
+```cpp
+string str1,str2;
+int a[220]={0},b[220]={0},c[220]={0};
+int main() {
+    cin >> str1 >> str2;
+    a[0] =str1.size();b[0] = str2.size();
+    c[0] = max(a[0],b[0]);
+    for(int i = 1;i<=a[0];i++){
+        a[i] = str1[a[0]-i] -'0';
+    }
+    for(int i = 1;i<=b[0];i++){
+        b[i] = str2[b[0]-i] -'0';
+    }
+
+    int carry = 0,sum =0;
+    for(int i =1;i<=c[0];i++) {
+        sum = carry + a[i] + b[i];
+        if(sum >0){
+            carry = sum / 10;
+            c[i] += sum%10;
+        }else {
+            c[i] =sum;
+            carry = 0;
+        }
+    }
+    if(carry > 0) {
+        c[0]++;
+        c[c[0]] = carry;
+    }
+
+    while(c[c[0]] == 0&&c[0] > 1){
+        c[0]--;
+    }
+    for(int i =c[0];i>=1;i--){
+        cout << c[i];
+    }
+    return 0;
+}
+```
+#### 减法
+```cpp
+    int flag=1;//0- 1+
+    if(a[0]<b[0]||(a[0]==b[0]&&a[a[0]]<b[b[0]])){
+        flag=0;
+    }
+    for(int i=1;i<=c[0];i++){
+        if(flag){
+            if(a[i]-b[i]<0){
+                a[i+1]--;
+                a[i]+=10;
+            }
+            c[i]=a[i]-b[i];
+        }else{
+            if(b[i]-a[i]<0){
+                b[i+1]--;
+                b[i]+=10;
+            }
+            c[i]=b[i]-a[i];
+        }
+    }
+
+    if(!flag) cout << '-';
+```
+#### 乘法
+```cpp
+    int x;
+    for(int i=1;i<=a[0];i++){
+        x=0;
+        for(int j=1;j<=b[0];j++){
+            c[i+j-1]=c[i+j-1]+a[i]*b[j]+x;
+                x=c[i+j-1]/10;
+                c[i+j-1]%=10;
+        }
+        c[b[0]+i]=x;
+    }
+```
 ## 搜索
 ### DFS
+```cpp
+void dfs(int step,int sx,int sy){
+    if(step == n*m){
+        cnt++;
+        return ;
+    }
+    for(int i=0;i<8;i++){
+        int dx= sx+tx[i],dy = sy+ty[i];
+        if(dx>=0&&dx<n&&dy>=0&&dy<m&&flag[dx][dy]!=1){
+            flag[dx][dy]=1;
+            dfs(step+1,dx,dy);
+            flag[dx][dy]=0;
+        }
+    }
+}
+```
 ### BFS
 ```cpp
 void bfs(int x,int y) {
@@ -341,12 +486,32 @@ void bfs(int x,int y) {
 	}
 }
 ```
-
 ## DP
 ## 记忆化搜索
-### 背包
-### 状压
-
+```cpp
+long long memo[1001]={0};
+long long f(int n) {
+    if(memo[n] != 0) {
+        return memo[n];
+    }
+    int res = 1;
+    if (n == 1) {
+        return res;
+    } else {
+        for (int i = 1; i <= n / 2; i++) {
+            res += f(i);
+        }
+    }
+    memo[n] = res;
+    return res;
+}
+```
+### 动态规划
+#### 思路
+1.构造问题
+2.拆分成子问题
+3.构造状态转移方程
+tip:末态最好为单一  
 ## 图论
 ### 最小生成树
 ###  Kruskal
@@ -373,6 +538,54 @@ void func(){
 }
 ```
 ### 最短路径
+```cpp
+const int N = 200005;
+const int INF = 0x3f3f3f3f;
+struct edge
+{
+    int to, dis, next;
+};
+edge e[N];
+int head[N] = {0}, dis[N]={0}, cnt = 0;
+bool vis[N] ={0};
+int n, m, s;
+void add_edge(int s,int d,int val){
+    e[++cnt].dis =val;
+    e[cnt].to = d;
+    e[cnt].next = head[s];
+    head[s] = cnt;
+}
+void bfs(){
+    priority_queue< pair<int,int> > q;
+    dis[s] = 0;
+    q.push(make_pair(0,s));
+    while(!q.empty()) {
+        int x = q.top().second;
+        q.pop();
+        if(vis[x]) continue;
+        vis[x] = 1;
+        for(int i = head[x];i;i=e[i].next){
+            int y = e[i].to,l=e[i].dis;
+            if(dis[y] > dis[x] + l){
+                dis[y] = dis[x] +l;
+                q.push(make_pair(-dis[y],y));
+            }
+        }
+    }
+}
+int main() {
+    cin >> n >> m >> s;
+    int a,b,c;
+    for(int i =0;i<m;i++){
+        cin >> a >> b >> c;
+        add_edge(a,b,c);
+    }
+    for(int i =1;i<=n;i++) dis[i] = INF;
+    bfs();
+    for(int i =1;i<=n;i++) cout << dis[i] << " ";
+    return 0;
+}
+```
 # instance
 ## 统计单词数
 ```cpp
@@ -468,5 +681,25 @@ int kmp(int n,int m) {
 }
 ```
 ## 进制转换
+### 十进制转二进制/八进制/十六进制
+```txt
+将35.25转化为二进制数
+整数部分：
+35/2=17 ......1
+17/2=8  ......1
+8/2=4   ......0
+4/2=2   ......0
+2/2=1   ......0
+1/2=0   ......1
+小数部分：
+0.25*2=0.5  0
+0.5*2=1     1
+```
+### 二进制/八进制/十六进制转十进制（递推）
+```txt
+将11010.01(2)转换为十进制数
+11010.01(2)=1*2^4+1*2^3+0*2^2+1*2^1+0*2^0+0*2^(-1)+1*2(-2)
+        =26.25
+```
 # ref
-[^1]: https://oi-wiki.org/string/lib-func/
+[^1]: (基本都来自oiwiki,后面懒得标了)https://oi-wiki.org/string/lib-func/
