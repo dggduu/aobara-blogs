@@ -7,14 +7,14 @@ categories = [
     "前端"
 ]
 +++
-# 数据库
-## mongoDB
-## mysql
-## 登录
+## 数据库
+### mongoDB
+### mysql
+### 登录
 ```sh
 mysql -u name -p ...
 ```
-## 忘记密码
+### 忘记密码
 ```sh
 sudo systemctl stop mysql
 sudo mysqld_safe --skip-grant-tables &
@@ -22,7 +22,7 @@ sudo mysqld_safe --skip-grant-tables &
 ```sql
 ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '...';
 ```
-## 创建数据库
+### 创建数据库
 ```sql
 //创建数据库
 create database test_wzh character set utf8mb4 collate utf8mb4_general_ci;
@@ -165,9 +165,9 @@ END IF;
 ALTER TABLE blog_article 
 ADD FOREIGN KEY(user_id) REFERENCES blog_auth(id);
 ```
-## MySQL 常用数据类型
+### MySQL 常用数据类型
 
-### 数值类型
+#### 数值类型
 | 类型         | 描述                                                         |
 |--------------|--------------------------------------------------------------|
 | `TINYINT`    | 非常小的整数（带符号范围为 -128 到 127，无符号范围为 0 到 255） |
@@ -179,7 +179,7 @@ ADD FOREIGN KEY(user_id) REFERENCES blog_auth(id);
 | `FLOAT`      | 单精度浮点数                                                 |
 | `DOUBLE`     | 双精度浮点数                                                 |
 
-### 日期和时间类型
+#### 日期和时间类型
 | 类型         | 描述                                                         |
 |--------------|--------------------------------------------------------------|
 | `DATE`       | 'YYYY-MM-DD' 格式的日期                                       |
@@ -188,7 +188,7 @@ ADD FOREIGN KEY(user_id) REFERENCES blog_auth(id);
 | `TIMESTAMP`  | 与 DATETIME 类似，但存储的是从 Unix 纪元以来的秒数          |
 | `YEAR`       | 以两位或四位数字表示的年份                                    |
 
-### 字符串类型
+#### 字符串类型
 | 类型         | 描述                                                         |
 |--------------|--------------------------------------------------------------|
 | `CHAR(N)`    | 固定长度字符串，N 表示字符的最大数量，默认为 1               |
@@ -201,17 +201,17 @@ ADD FOREIGN KEY(user_id) REFERENCES blog_auth(id);
 | `VARBINARY`  | 类似于 VARCHAR，但是存储二进制字符串                          |
 | `BLOB`       | 类似于 TEXT，但是存储二进制数据                              |
 
-### 枚举和集合类型
+#### 枚举和集合类型
 | 类型         | 描述                                                         |
 |--------------|--------------------------------------------------------------|
 | `ENUM`       | 一个枚举类型，允许从预定义的值列表中选择一个值               |
 | `SET`        | 一个集合类型，允许从预定义的值列表中选择零个或多个值         |
 
-### JSON 类型
+#### JSON 类型
 | 类型         | 描述                                                         |
 |--------------|--------------------------------------------------------------|
 | `JSON`       | 存储 JSON 文档                                               |
-## where子语句
+### where子语句
 | 编号 | 条件类型       | 示例 SQL 语句                                                                 | 说明                                     |
 |------|----------------|--------------------------------------------------------------------------------|------------------------------------------|
 | 1    | 等于条件       | `SELECT * FROM users WHERE username = 'test';`                               | 查找用户名为 'test' 的用户               |
@@ -232,39 +232,39 @@ LIKE 支持的通配符：
 %   匹配任意数量的字符（包括零个）  
 _   匹配一个单一字符  
 e.g. '_r%' 匹配第二个字母为 'r' 的任何字符串。  
-## 连接的使用
-### INNER JOIN  内部联接
+### 连接的使用
+#### INNER JOIN  内部联接
 ```sql
 SELECT column1, column2, ...
 FROM table1
 INNER JOIN table2 ON table1.column_name = table2.column_name;
 ```
-### LEFT JOIN  左联接
+#### LEFT JOIN  左联接
 LEFT JOIN 返回左表的所有行，并包括右表中匹配的行，如果右表中没有匹配的行，将返回 NULL 值  
 ```sql
 SELECT column1, column2, ...
 FROM table1
 LEFT JOIN table2 ON table1.column_name = table2.column_name;
 ```
-### RIGHT JOIN  右联接
+#### RIGHT JOIN  右联接
 RIGHT JOIN 返回右表的所有行，并包括左表中匹配的行，如果左表中没有匹配的行，将返回 NULL 值  
 ```sql
 SELECT customers.customer_id, orders.order_id
 FROM customers
 RIGHT JOIN orders ON customers.customer_id = orders.customer_id;
 ```
-## 复制表
-### 复制表结构 + 数据(不会复制原表的主键、索引、自增属性等)
+### 复制表
+#### 复制表结构 + 数据(不会复制原表的主键、索引、自增属性等)
 ```sql
 create table `copy_name` as select * from ori_list;
 ```
-### 复制表结构并保留原表的约束和索引（用于完整备份）
+#### 复制表结构并保留原表的约束和索引（用于完整备份）
 ```sql
 create table `copy_name` like `ori_name`;
 insert into `copy_name` select * from `ori_name`;
 ```
-## 处理重复数据
-### 查询重复数据
+### 处理重复数据
+#### 查询重复数据
 ```sql
 DELETE w1
 FROM wzh w1
@@ -272,7 +272,7 @@ JOIN wzh w2
 ON w1.title = w2.title
 WHERE w1.id > w2.id;
 ```
-### 使用临时表备份 + 替换原表
+#### 使用临时表备份 + 替换原表
 ```sql
 -- 创建一个临时表，保存去重后的数据
 CREATE TABLE wzh_temp AS
@@ -286,7 +286,7 @@ DROP TABLE wzh;
 -- 将临时表重命名为原表名
 RENAME TABLE wzh_temp TO wzh;
 ```
-### 使用自连接删除重复数据
+#### 使用自连接删除重复数据
 ```sql
 DELETE w1
 FROM wzh w1
@@ -294,7 +294,7 @@ JOIN wzh w2
 ON w1.title = w2.title
 WHERE w1.id > w2.id;
 ```
-## 导出
+### 导出
 ```sql
 SELECT id, name, email
 INTO OUTFILE '/tmp/user_data.csv'
@@ -302,7 +302,7 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n'
 FROM users;
 ```
-## 导入
+### 导入
 ```sql
 mysqlimport -u root -p --local mytbl dump.txt
 
@@ -313,12 +313,12 @@ use abc;
 set names utf8;
 source /home/abc/abc.sql
 ```
-# axios
-# echart
-# animeJS
-# ElementPlus
-# nodeJS
-## 创建一个http服务器
+## axios
+## echart
+## animeJS
+## ElementPlus
+## nodeJS
+### 创建一个http服务器
 ```js
 const http = require('http');
 
@@ -329,13 +329,13 @@ http.createServer(function(req,res) {
 
 console.log('Server running at http://127.0.0.1:3000/');
 ````
-### HTTP 状态码
+#### HTTP 状态码
 - `1xx（信息性状态码）`：表示接收的请求正在处理。
 - `2xx（成功状态码）`：表示请求正常处理完毕。
 - `3xx（重定向状态码）`：需要后续操作才能完成这一请求。
 - `4xx（客户端错误状态码）`：表示请求包含语法错误或无法完成。
 - `5xx（服务器错误状态码）`：服务器在处理请求的过程中发生了错误。
-### promise
+#### promise
 ```js
 const mypromise = new Promise((resolve,reject)=>{
     const success = true;
@@ -396,7 +396,7 @@ Promise.race([promise1, promise2])
     console.log(result); // 输出："第二个"
   });
 ```
-### async/await
+#### async/await
 ```js
 async function getUserAndPosts(userId) {
   try {
@@ -409,7 +409,7 @@ async function getUserAndPosts(userId) {
   }
 }
 ````
-## EventEmitter
+### EventEmitter
 ```js
 var events = require('events'); 
 var emitter = new events.EventEmitter(); 
@@ -434,12 +434,12 @@ emitter.emit('someEvent', 'arg1 参数', 'arg2 参数');
 | listeners(event)       | event: 事件名                                | 返回指定事件的所有监听器数组 |
 | prependListener(event, listener) | event: 事件名；listener: 回调函数        | 添加监听器到监听器队列的最前面 |
 | prependOnceListener(event, listener) | event: 事件名；listener: 回调函数    | 添加一次性监听器到队列最前面 |
-### error 事件
+#### error 事件
 公用事件  
 ```js
 emitter.emit('error'); 
 ````
-### 继承 EventEmitter
+#### 继承 EventEmitter
 ```js
 class MyEmitter extends EventEmitter {}
 const customEmitter = new MyEmitter();
@@ -450,7 +450,7 @@ customEmitter.on('customEvent', () => {
 
 customEmitter.emit('customEvent');
 ````
-## 模块导出
+### 模块导出
 ```js
 // hello.js 
 function Hello() { 
@@ -481,7 +481,7 @@ var server = require("./server");
 var router = require("./router");
 server.start(router.route);
 ```
-## 路由
+### 路由
 ```js
 const http = require('http');
 
@@ -505,7 +505,7 @@ server.listen(3000, () => {
   console.log('Server is running on http://localhost:3000');
 });
 ```
-### 请求参数
+#### 请求参数
 ```js
 const myUrl = new URL("http://localhost:8888/start?foo=bar&hello=world");
 // 提取路径名
@@ -514,7 +514,7 @@ console.log(myUrl.pathname); // 输出: /start
 console.log(myUrl.searchParams.get("foo"));   // 输出: bar
 console.log(myUrl.searchParams.get("hello")); // 输出: world
 ```
-### 使用express
+#### 使用express
 ```js
 const express = require('express');
 const app = express();
@@ -536,12 +536,12 @@ app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 ```
-### 使用cors处理跨域请求
+#### 使用cors处理跨域请求
 ```js
 const cors = require('cors');
 app.use(cors());
 ```
-### 使用mysql2来连接
+#### 使用mysql2来连接
 ```js
 const mysql = require('mysql2');
 const pool = mysql.createPool({
@@ -585,7 +585,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 ```
-## route vue 路由
+### route vue 路由
 ```js
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginPage from '../components/login-page.vue'
@@ -615,7 +615,64 @@ export default router
 ```
 ## jQuery
 ## swiper(轮播图)
-#### 集成fancybox的样例
-npm install @fancyapps/fancybox  
-# uniapp
-# 微信小程序
+```html
+<template>
+  <div class="swiper-container">
+    <swiper
+      :modules="modules"
+      :slides-per-view="1"
+      :space-between="50"
+      navigation
+      :pagination="{ clickable: true }"
+      @swiper="onSwiper"
+      @slideChange="onSlideChange"
+    >
+      <swiper-slide><img src="@/assets/img/thumb1.jpg" alt="Image Slide"></swiper-slide>
+      <swiper-slide><img src="@/assets/img/thumb2.jpg" alt="Image Slide"></swiper-slide>
+      <swiper-slide><img src="@/assets/img/thumb3.jpg" alt="Image Slide"></swiper-slide>
+    </swiper>
+  </div>
+</template>
+
+<script setup>
+import { Swiper, SwiperSlide } from 'swiper/vue'
+import { Navigation, Pagination } from 'swiper/modules'
+
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+
+const modules = [Navigation, Pagination]
+
+const onSwiper = (swiper) => {
+  console.log('Swiper instance:', swiper)
+}
+
+const onSlideChange = () => {
+  console.log('Slide changed')
+}
+</script>
+
+<style scoped>
+.swiper-container {
+  width: 100%;
+  height: 300px;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  background-color: #f0f0f0;
+  text-align: center;
+}
+
+.swiper-slide img {
+  width: 100%;
+  height: auto;
+}
+</style>
+````
+## uniapp
+## 微信小程序
