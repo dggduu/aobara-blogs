@@ -11,6 +11,10 @@ categories = [
 ```cpp
 fgets(sep, sizeof(sep), stdin);
 ```
+### gcd
+### 素数
+### 最大公因数
+### 最小公倍数
 ## 字符串处理函数
 ### string 转换为char
 [^1]
