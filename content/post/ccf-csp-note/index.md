@@ -11,10 +11,37 @@ categories = [
 ```cpp
 fgets(sep, sizeof(sep), stdin);
 ```
-### gcd
 ### 素数
+```cpp
+int isPrime(int n) {
+    if (n <= 1) return 0;
+    if (n == 2) return 1;
+    if (n % 2 == 0) return 0;
+
+    for (int i = 3; i <= sqrt(n); i += 2) {
+        if (n % i == 0)
+            return 0;
+    }
+    return 1;
+}
+```
 ### 最大公因数
+```cpp
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+```
 ### 最小公倍数
+```cpp
+int lcm(int a, int b) {
+    return a * b / gcd(a, b);
+}
+```
 ## 字符串处理函数
 ### string 转换为char
 [^1]
